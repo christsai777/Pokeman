@@ -5,6 +5,7 @@
 #include "hashADT.h"
 #include "node.h"
 #include "hashADT.h"
+#include "pokemon.h"
 
 using namespace std;
 
@@ -13,44 +14,42 @@ class bstADT
 private:
 	Node * root;
 
-	//insert helper functions
-	void insertByName(pokemon * data);	//sort by name
-	void insertByType(pokemon * data);	//sort by type + name
-	void insertByHP(pokemon * data);	//sort by hp
-	void insertByAtk(pokemon * data);	//sort by attack
-	void insertByDef(pokemon * data);	//sort by defense
-
-										//search helper functions
-	Node * searchByName(const pokemon & data);	//search by name
-	Node * searchByType(const pokemon & data);	//search by type
-	Node * searchByHP(const pokemon & data);		//search by HP
-	Node * searchByAtk(const pokemon & data);		//search by attack
-	Node * searchByDef(const pokemon & data);		//search by defense
-
-													//traverse helper function
-	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
 public:
 	//constructor that receives a hashtable
 	bstADT();
 	bstADT(const hashADT & table, int choice);
 	//destructor
 	~bstADT();
+
+	//determines method of comparison
+	int compareBy(const pokemon & data1, const pokemon & data2, int choice);
 	//insert
 	void insert(pokemon * data, int choice);	//insert according to choice
-												//traverse inorder
-	void traverseInorder(void process(const pokemon & data)) const;	//process inorder
-																	//remove
+	void insert(Node * tree, pokemon * data, int choice);	//insert recursive
+	//remove
 	void remove(const pokemon & data, int choice);
 	//search
 	Node * search(const pokemon & data, int choice);
-	//check balance
-	void checkBal(Node * tree);
-	//rebalance
-	void reBal(Node * tree);
-	//destroy
-	void destroy(Node * ptr);
+
+	//functions that help with balancing
+	int height(Node * ptr);
+	int heightDiff(Node * ptr);
+	Node * rotateRR(Node * tree);
+	Node * rotateLL(Node * tree);
+	Node * rotateLR(Node * tree);
+	Node * rotateRL(Node * tree);
+	Node * balance(Node * tree);
+
+	//traverse inorder
+	void traverseInorder(void process(const pokemon & data)) const;	//process inorder
+	//traverse helper function
+	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
+
 	//re-sort
 	void resort(int choice);
+
+	//destroy
+	void destroy(Node * ptr);
 };
 
 #endif

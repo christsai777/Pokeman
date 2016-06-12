@@ -42,11 +42,11 @@ public:
 	{
 		return data;
 	} // data accessor
-	Node<pokemon> * getLeft() const
+	Node * getLeft() const
 	{
 		return left;
 	} // next pointer accessor
-	Node<pokemon> * getRight() const
+	Node * getRight() const
 	{
 		return right;
 	} // next pointer accessor

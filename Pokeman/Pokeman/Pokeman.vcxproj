@@ -113,6 +113,7 @@
     <ClInclude Include="bstADT.h" />
     <ClInclude Include="hashADT.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="pokemon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bstADT.cpp" />

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "bstADT.h"
+#include "pokemon.h"
 
 using namespace std;
 
@@ -16,6 +17,10 @@ bstADT::bstADT(const hashADT & table, int choice)
 {
 	root = 0;
 	pokemon * ptr;
+	if (choice < 1 || choice > 5)
+	{
+		choice = 1;
+	}	//defaults to choice 1 if choice selection was invalid
 	for (int i = 0; i < table.tableSize(); i++)	//go through hash table
 	{
 		if (table.NumberOfPokemon(i) != 0)
@@ -38,72 +43,142 @@ bstADT::~bstADT()
 	root = 0;
 }
 
-//insert
-void bstADT::insert(pokemon * data, int choice)
+//determines method of comparison
+int bstADT::compareBy(const pokemon & data1, const pokemon & data2, int choice)
 {
+	int compare = 0;
 	switch (choice)
 	{
 	case 1:
-		insertByName(data);
+		if (data1.name < data2.name)
+		{
+			compare = -1;
+		}
+		else if (data1.name > data2.name)
+		{
+			compare = 1;
+		}
+		else
+		{
+			compare = 0;
+		}
 		break;
 	case 2:
-		insertByType(data);
+		if (data1.type < data2.type)
+		{
+			compare = -1;
+		}
+		else if (data1.type > data2.type)
+		{
+			compare = 1;
+		}
+		else
+		{
+			if (data1.name < data2.name)
+			{
+				compare = -1;
+			}
+			else if (data1.name > data2.name)
+			{
+				compare = 1;
+			}
+			else
+			{
+				compare = 0;
+			}	//name and type match
+		}
 		break;
 	case 3:
-		insertByHP(data);
+		if (data1.hp < data2.hp)
+		{
+			compare = -1;
+		}
+		else if (data1.hp > data2.hp)
+		{
+			compare = 1;
+		}
+		else
+		{
+			if (data1.name < data2.name)
+			{
+				compare = -1;
+			}
+			else if (data1.name > data2.name)
+			{
+				compare = 1;
+			}
+			else
+			{
+				compare = 0;
+			}	//name and hp match
+		}
 		break;
 	case 4:
-		insertByAtk(data);
+		if (data1.attack < data2.attack)
+		{
+			compare = -1;
+		}
+		else if (data1.attack > data2.attack)
+		{
+			compare = 1;
+		}
+		else
+		{
+			if (data1.name < data2.name)
+			{
+				compare = -1;
+			}
+			else if (data1.name > data2.name)
+			{
+				compare = 1;
+			}
+			else
+			{
+				compare = 0;
+			}	//name and attack match
+		}
 		break;
 	case 5:
-		insertByDef(data);
+		if (data1.defense < data2.defense)
+		{
+			compare = -1;
+		}
+		else if (data1.defense > data2.defense)
+		{
+			compare = 1;
+		}
+		else
+		{
+			if (data1.name < data2.name)
+			{
+				compare = -1;
+			}
+			else if (data1.name > data2.name)
+			{
+				compare = 1;
+			}
+			else
+			{
+				compare = 0;
+			}	//name and defense match
+		}
 		break;
 	default:
 		cout << "Invalid choice of sort" << endl;
 	}
+	return compare;
 }
 
-//insert helper functions
-void bstADT::insertByName(pokemon * data)
+//insert function that calls recursive insert
+void bstADT::insert(pokemon * data, int choice)
 {
-
+	insert(root, data, choice);
 }
 
-void bstADT::insertByType(pokemon * data)
+//recursive insert function
+void bstADT::insert(Node * tree, pokemon * data, int choice)
 {
 
-}
-
-void bstADT::insertByHP(pokemon * data)
-{
-
-}
-
-void bstADT::insertByAtk(pokemon * data)
-{
-
-}
-
-void bstADT::insertByDef(pokemon * data)
-{
-
-}
-
-//traverse inorder
-void bstADT::traverseInorder(void process(const pokemon & data)) const
-{
-	traverseInorder(root, process);
-}
-
-//traverse inorder recursive
-void bstADT::traverseInorder(Node * ptr, void process(const pokemon & data)) const //process parameter
-{
-	if (ptr)
-	{
-		traverseInorder(ptr->getLeft(), process);
-		process(*(ptr->getData()));
-		traverseInorder(ptr->getRight(), process);
-	}
 }
 
 //remove
@@ -118,153 +193,83 @@ void bstADT::remove(const pokemon & data, int choice)
 //search
 Node * bstADT::search(const pokemon & data, int choice)
 {
-	Node * ptr = 0;
-	switch (choice)
-	{
-	case 1:
-		return searchByName(data);
-		break;
-	case 2:
-		return searchByType(data);
-		break;
-	case 3:
-		return searchByHP(data);
-		break;
-	case 4:
-		return searchByAtk(data);
-		break;
-	case 5:
-		return searchByDef(data);
-		break;
-	default:
-		cout << "Invalid choice of sort" << endl;
-	}
-	return ptr;
-}
-
-//search helper functions
-Node * bstADT::searchByName(const pokemon & data)
-{
 	Node * ptr = root;
+	int compare;
 
 	while (ptr)
 	{
-		if (data.name < (ptr->getData)->name)
+		compare = compareBy(data, *(ptr->getData()), choice);
+		if (compare == -1)
 		{
 			ptr = ptr->getLeft();
 		}
-		else if (data.name >(ptr->getData)->name)
+		else if (compare == 1)
 		{
 			ptr = ptr->getRight();
 		}
+		else if(compare == 0)
+		{
+			break;
+		}	//name match found
 		else
 		{
+			cout << "Error during comparison" << endl;
 			break;
 		}
 	}
 	return ptr;
 }
 
-//matches type, then name  ******************FIX
-Node * bstADT::searchByType(const pokemon & data)
+//functions that help with balancing
+int bstADT::height(Node * ptr)
 {
-	Node * ptr = root;
 
-	while (ptr)
+}
+int bstADT::heightDiff(Node * ptr)
+{
+
+}
+Node * bstADT::rotateRR(Node * tree)
+{
+
+}
+Node * bstADT::rotateLL(Node * tree)
+{
+
+}
+Node * bstADT::rotateLR(Node * tree)
+{
+
+}
+Node * bstADT::rotateRL(Node * tree)
+{
+
+}
+Node * bstADT::balance(Node * tree)
+{
+
+}
+
+//traverse inorder that calls recursive function
+void bstADT::traverseInorder(void process(const pokemon & data)) const
+{
+	traverseInorder(root, process);
+}
+
+//traverse inorder recursive
+void bstADT::traverseInorder(Node * ptr, void process(const pokemon & data)) const
+{
+	if (ptr)
 	{
-		if (data.name < (ptr->getData)->name)
-		{
-			ptr = ptr->getLeft();
-		}
-		else if (data.name >(ptr->getData)->name)
-		{
-			ptr = ptr->getRight();
-		}
-		else
-		{
-			break;
-		}
+		traverseInorder(ptr->getLeft(), process);
+		process(*(ptr->getData()));
+		traverseInorder(ptr->getRight(), process);
 	}
-	return ptr;
+	else return;
 }
 
-//matches hp, then name  ******************FIX
-Node * bstADT::searchByHP(const pokemon & data)
-{
-	Node * ptr = root;
-
-	while (ptr)
-	{
-		if (data.name < (ptr->getData)->name)
-		{
-			ptr = ptr->getLeft();
-		}
-		else if (data.name >(ptr->getData)->name)
-		{
-			ptr = ptr->getRight();
-		}
-		else
-		{
-			break;
-		}
-	}
-	return ptr;
-}
-
-//matches atk stat, then name  ******************FIX
-Node * bstADT::searchByAtk(const pokemon & data)
-{
-	Node * ptr = root;
-
-	while (ptr)
-	{
-		if (data.name < (ptr->getData)->name)
-		{
-			ptr = ptr->getLeft();
-		}
-		else if (data.name >(ptr->getData)->name)
-		{
-			ptr = ptr->getRight();
-		}
-		else
-		{
-			break;
-		}
-	}
-	return ptr;
-}
-
-//matches def stat, then name  ******************FIX
-Node * bstADT::searchByDef(const pokemon & data)
-{
-	Node * ptr = root;
-
-	while (ptr)
-	{
-		if (data.name < (ptr->getData)->name)
-		{
-			ptr = ptr->getLeft();
-		}
-		else if (data.name >(ptr->getData)->name)
-		{
-			ptr = ptr->getRight();
-		}
-		else
-		{
-			break;
-		}
-	}
-	return ptr;
-}
-
-//check balance
-void bstADT::checkBal(Node * tree)
-{
-
-}
-
-//rebalance
-void bstADT::reBal(Node * tree)
+//re-sort
+void bstADT::resort(int choice)
 {
 
 }
@@ -280,10 +285,4 @@ void bstADT::destroy(Node * ptr)
 		ptr = 0;
 	}
 	
-}
-
-//re-sort
-void bstADT::resort(int choice)
-{
-
 }
