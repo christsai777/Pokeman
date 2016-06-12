@@ -32,9 +32,10 @@ bstADT::bstADT(const hashADT & table, int choice)
 }
 
 //destructor
-~bstADT::bstADT()
+bstADT::~bstADT()
 {
 	destroy(root);
+	root = 0;
 }
 
 //insert
@@ -269,7 +270,7 @@ void bstADT::reBal(Node * tree)
 }
 
 //destroy
-void bstADT::destroy(Node * & ptr)
+void bstADT::destroy(Node * ptr)
 {
 	if (ptr)
 	{
@@ -278,6 +279,7 @@ void bstADT::destroy(Node * & ptr)
 		delete ptr;
 		ptr = 0;
 	}
+	
 }
 
 //re-sort

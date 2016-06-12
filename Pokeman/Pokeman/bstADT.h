@@ -4,6 +4,7 @@
 #include <string>
 #include "hashADT.h"
 #include "node.h"
+#include "hashADT.h"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ private:
 public:
 	//constructor that receives a hashtable
 	bstADT();
-	bstADT(hashADT table, int choice);
+	bstADT(const hashADT & table, int choice);
 	//destructor
 	~bstADT();
 	//insert
@@ -45,9 +46,9 @@ public:
 	//check balance
 	void checkBal(Node * tree);
 	//rebalance
-	void rebalance(Node * tree);
+	void reBal(Node * tree);
 	//destroy
-	void destroy();
+	void destroy(Node * ptr);
 	//re-sort
 	void resort(int choice);
 };
