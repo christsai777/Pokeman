@@ -172,13 +172,28 @@ int bstADT::compareBy(const pokemon & data1, const pokemon & data2, int choice)
 //insert function that calls recursive insert
 void bstADT::insert(pokemon * data, int choice)
 {
-	insert(root, data, choice);
+	root = insert(root, data, choice);
 }
 
 //recursive insert function
-void bstADT::insert(Node * tree, pokemon * data, int choice)
+Node * bstADT::insert(Node * tree, pokemon * data, int choice)
 {
-
+	if (tree)
+	{
+		tree = new Node(data, 0, 0);
+		return tree;
+	}
+	else if (compareBy(*data, *(tree->getData()), choice) < 0)
+	{
+		tree->setLeft(insert(tree->getLeft(), data, choice));
+		tree = balance(tree);
+	}
+	else if (compareBy(*data, *(tree->getData()), choice) >= 0)
+	{
+		tree->setRight(insert(tree->getRight(), data, choice));
+		tree = balance(tree);
+	}
+	return tree;
 }
 
 //remove
@@ -210,7 +225,7 @@ Node * bstADT::search(const pokemon & data, int choice)
 		else if(compare == 0)
 		{
 			break;
-		}	//name match found
+		}	//match found
 		else
 		{
 			cout << "Error during comparison" << endl;
@@ -223,31 +238,77 @@ Node * bstADT::search(const pokemon & data, int choice)
 //functions that help with balancing
 int bstADT::height(Node * ptr)
 {
-
+	int h = 0;
+	if (ptr)
+	{
+		int leftHeight = height(ptr->getLeft());
+		int rightHeight = height(ptr->getRight());
+		int maxHeight = ((leftHeight < rightHeight) ? rightHeight : leftHeight);
+		h = maxHeight + 1;
+	}
+	return h;
 }
+
 int bstADT::heightDiff(Node * ptr)
 {
-
+	int leftHeight = height(ptr->getLeft());
+	int rightHeight = height(ptr->getRight());
+	int difference = leftHeight - rightHeight;
+	return difference;
 }
-Node * bstADT::rotateRR(Node * tree)
+
+Node * bstADT::rotateR(Node * parent)
 {
-
+	Node * ptr;
+	ptr = parent->getRight();
+	parent->setRight(ptr->getLeft());
+	ptr->setLeft(parent);
+	return ptr;
 }
-Node * bstADT::rotateLL(Node * tree)
+
+Node * bstADT::rotateL(Node * parent)
 {
-
+	Node * ptr;
+	ptr = parent->getLeft();
+	parent->setLeft(ptr->getRight());
+	ptr->setRight(parent);
+	return ptr;
 }
-Node * bstADT::rotateLR(Node * tree)
+
+Node * bstADT::rotateLR(Node * parent)
 {
-
+	Node * ptr;
+	ptr = parent->getLeft();
+	parent->setLeft(rotateR(ptr));
+	return rotateL(parent);
 }
-Node * bstADT::rotateRL(Node * tree)
+
+Node * bstADT::rotateRL(Node * parent)
 {
-
+	Node * ptr;
+	ptr = parent->getRight();
+	parent->setRight(rotateL(ptr));
+	return rotateR(parent);
 }
+
 Node * bstADT::balance(Node * tree)
 {
-
+	int diff = heightDiff(tree);
+	if (diff > 1)
+	{
+		if (heightDiff(tree->getLeft()) > 0)
+			tree = rotateL(tree);
+		else
+			tree = rotateLR(tree);
+	}
+	else if (diff < -1)
+	{
+		if (heightDiff(tree->getRight()) > 0)
+			tree = rotateRL(tree);
+		else
+			tree = rotateR(tree);
+	}
+	return tree;
 }
 
 //traverse inorder that calls recursive function

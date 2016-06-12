@@ -25,7 +25,7 @@ public:
 	int compareBy(const pokemon & data1, const pokemon & data2, int choice);
 	//insert
 	void insert(pokemon * data, int choice);	//insert according to choice
-	void insert(Node * tree, pokemon * data, int choice);	//insert recursive
+	Node * insert(Node * tree, pokemon * data, int choice);	//insert recursive
 	//remove
 	void remove(const pokemon & data, int choice);
 	//search
@@ -34,10 +34,10 @@ public:
 	//functions that help with balancing
 	int height(Node * ptr);
 	int heightDiff(Node * ptr);
-	Node * rotateRR(Node * tree);
-	Node * rotateLL(Node * tree);
-	Node * rotateLR(Node * tree);
-	Node * rotateRL(Node * tree);
+	Node * rotateR(Node * parent);
+	Node * rotateL(Node * parent);
+	Node * rotateLR(Node * parent);
+	Node * rotateRL(Node * parent);
 	Node * balance(Node * tree);
 
 	//traverse inorder
