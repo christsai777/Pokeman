@@ -212,3 +212,38 @@ void hashADT::deletePokemon(string name)
 	}
 
 }
+
+
+string hashADT::returnPokemon(string index)
+{
+	string name;
+	name = HashTable[index]->name;
+	return name;
+}
+
+
+void hashADT::printIndex(int index)
+{
+	item* Ptr = HashTable[index];
+
+	if (Ptr->name == "none")
+	{
+		cout << "index= " << index << "is empty, no Pokemon are in there.";
+	}
+
+	else
+	{
+		cout << "index " << index << "contains the following Pokemon\n";
+
+		while (Ptr != NULL)
+		{
+			cout << "=====================\n";
+			cout << "1. " << Ptr->name << endl;
+			cout << "Type: " << Ptr->Type << endl;
+			cout << "HP: " << Ptr->hp << endl;
+			cout << "Attack: " << Ptr->attack << endl;
+			cout << "Defense: " << Ptr->defense << endl;
+			Ptr = Ptr->next;
+		}
+	}
+}

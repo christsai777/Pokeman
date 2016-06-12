@@ -32,6 +32,8 @@ public:
 	void PrintTable();
 	void FindPokemon(string name);
 	void deletePokemon(string name);
+	string returnPokemon(string index);
+	void printIndex(int index);
 };
 
 
