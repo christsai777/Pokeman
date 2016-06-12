@@ -18,9 +18,18 @@
     <ClInclude Include="hashADT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bstADT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hashADT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bstADT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
