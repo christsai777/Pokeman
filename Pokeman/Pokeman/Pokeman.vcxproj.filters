@@ -27,12 +27,18 @@
     <ClInclude Include="pokemon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stackADT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hashADT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bstADT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stackADT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,7 +4,6 @@
 #include <string>
 #include "hashADT.h"
 #include "node.h"
-#include "hashADT.h"
 #include "pokemon.h"
 
 using namespace std;
@@ -21,13 +20,17 @@ public:
 	//destructor
 	~bstADT();
 
+	//setup
+	void setup(const hashADT & table, int choice);
+
 	//determines method of comparison
 	int compareBy(const pokemon & data1, const pokemon & data2, int choice);
 	//insert
 	void insert(pokemon * data, int choice);	//insert according to choice
 	Node * insert(Node * tree, pokemon * data, int choice);	//insert recursive
 	//remove
-	void remove(const pokemon & data, int choice);
+	void remove(hashADT & table, const pokemon & data, int choice);
+	Node * remove(Node * tree, const pokemon & data, int choice);
 	//search
 	Node * search(const pokemon & data, int choice);
 
@@ -46,7 +49,7 @@ public:
 	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
 
 	//re-sort
-	void resort(int choice);
+	void resort(const hashADT & table, int choice);
 
 	//destroy
 	void destroy(Node * ptr);

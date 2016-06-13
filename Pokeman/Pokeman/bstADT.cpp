@@ -15,6 +15,19 @@ bstADT::bstADT()
 //constructor that receives a hashtable
 bstADT::bstADT(const hashADT & table, int choice)
 {
+	setup(table, choice);
+}
+
+//destructor
+bstADT::~bstADT()
+{
+	destroy(root);
+	root = 0;
+}
+
+//setup
+void bstADT::setup(const hashADT & table, int choice)
+{
 	root = 0;
 	pokemon * ptr;
 	if (choice < 1 || choice > 5)
@@ -34,13 +47,6 @@ bstADT::bstADT(const hashADT & table, int choice)
 			}
 		}
 	}
-}
-
-//destructor
-bstADT::~bstADT()
-{
-	destroy(root);
-	root = 0;
 }
 
 //determines method of comparison
@@ -196,13 +202,94 @@ Node * bstADT::insert(Node * tree, pokemon * data, int choice)
 	return tree;
 }
 
-//remove
-void bstADT::remove(const pokemon & data, int choice)
+//remove a pokemon using recursive remove and deletes the data from the hash table associated with it
+void bstADT::remove(hashADT & table, const pokemon & data, int choice)
+{
+	if (search(data, choice))
+	{
+		root = remove(root, data, choice);
+		table.deletePokemon(data.name);
+	}
+	else
+	{
+		cout << "Pokemon not found!" << endl;
+	}
+}
+
+//recursive remove helper function
+Node * bstADT::remove(Node * tree, const pokemon & data, int choice)
 {
 	//search(data, choice)
 	//delete it
 	//check balance
 	//balance
+
+	//check for empty tree
+	if (!tree)
+	{
+		cout << "Nothing to remove!" << endl;
+		return tree;
+	}
+		
+	//Start looking for the data by searching left if data is smaller or right if data is larger
+	if (compareBy(data, *(tree->getData()), choice) < 0)
+		root->setLeft(remove(tree->getLeft(), data, choice));
+	else if (compareBy(data, *(tree->getData()), choice) > 0)
+		root->setRight(remove(tree->getRight(), data, choice));
+	//otherwise you're at the correct node
+	else
+	{
+		// node with only one child or no child
+		if (!(tree->getLeft()) || !(root->getRight()))
+		{
+			Node * ptr = (tree->getLeft() ? tree->getLeft() : tree->getRight());
+
+			//no child, set current node pointer (that will be returned) to 0 but save a local pointer to delete
+			if (!ptr)
+			{
+				ptr = tree;
+				tree = 0;
+			}
+			else // theres 1 child
+			{
+				tree->setData(ptr->getData()); // transfer data from child to current node
+			}
+
+			delete ptr;
+		}
+		else
+		{
+			// node with two children: Get the inorder successor (smallest
+			// in the right subtree)
+			Node * ptr = findSmallest(root->getRight());
+
+			// Copy the inorder successor's data to this node
+			tree->setData(ptr->getData());
+
+			// Delete the inorder successor
+			tree->setRight(remove(tree->getRight(), *(ptr->getData()), choice));
+		}
+	}
+
+	// If the tree had only one node then return, otherwise balance the tree
+	if (!tree)
+		return tree;
+	else
+		tree = balance(tree);
+
+	return tree;
+}
+
+//helper function for remove function that finds the node with the smallest data
+Node * findSmallest(Node * ptr)
+{
+	Node * pos = ptr;
+
+	//go to the left leaf, which is the smallest
+	while (pos->getLeft())
+		pos = pos->getLeft();
+
+	return pos;
 }
 
 //search
@@ -330,20 +417,21 @@ void bstADT::traverseInorder(Node * ptr, void process(const pokemon & data)) con
 }
 
 //re-sort
-void bstADT::resort(int choice)
+void bstADT::resort(const hashADT & table, int choice)
 {
-
+	destroy(root);
+	root = 0;
+	setup(table, choice);
 }
 
-//destroy
+//destroys the BST but NOT the pokemon objects
 void bstADT::destroy(Node * ptr)
 {
 	if (ptr)
 	{
 		destroy(ptr->getLeft());
 		destroy(ptr->getRight());
-		delete ptr;
+		delete ptr;	//delete node
 		ptr = 0;
 	}
-	
 }
