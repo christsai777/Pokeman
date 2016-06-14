@@ -491,7 +491,11 @@ void bstADT::preorderIndent(Node * ptr, ostream & os, string indent) const
 		preorderIndent(ptr->getLeft(), os, indent + "\t");
 		preorderIndent(ptr->getRight(), os, indent + "\t");
 	}
-	else return;
+	else
+	{
+		os << endl;
+		return;
+	}	
 }
 
 
