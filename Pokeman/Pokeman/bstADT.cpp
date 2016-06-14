@@ -394,37 +394,37 @@ Node * bstADT::balance(Node * tree)
 }
 
 //traverse inorder that calls recursive function
-void bstADT::traverseInorder(void process(const pokemon & data)) const
+void bstADT::traverseInorder(ostream & os) const
 {
-	traverseInorder(root, process);
+	traverseInorder(root, os);
 }
 
 //traverse inorder recursive
-void bstADT::traverseInorder(Node * ptr, void process(const pokemon & data)) const
+void bstADT::traverseInorder(Node * ptr, ostream & os) const
 {
 	if (ptr)
 	{
-		traverseInorder(ptr->getLeft(), process);
-		process(*(ptr->getData()));
-		traverseInorder(ptr->getRight(), process);
+		traverseInorder(ptr->getLeft(), os);
+		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << "|ATK: " << (ptr->getData())->attack << "DEF: " << (ptr->getData())->defense << "]" << endl;
+		traverseInorder(ptr->getRight(), os);
 	}
 	else return;
 }
 
 //traverse preorder with indentations that calls recursive function
-void bstADT::preorderIndent(void process(const pokemon & data)) const
+void bstADT::preorderIndent(ostream & os) const
 {
-	preorderIndent(root, process, "");
+	preorderIndent(root, os, "");
 }
 
 //traverse preorder with indentations recursive
-void bstADT::preorderIndent(Node * ptr, void process(const pokemon & data), string indent) const
+void bstADT::preorderIndent(Node * ptr, ostream & os, string indent) const
 {
 	if (ptr)
 	{
-		process(*(ptr->getData()));
-		preorderIndent(ptr->getLeft(), process, indent + "\t");
-		preorderIndent(ptr->getRight(), process, indent + "\t");
+		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << "|ATK: " << (ptr->getData())->attack << "DEF: " << (ptr->getData())->defense << "]" << endl;
+		preorderIndent(ptr->getLeft(), os, indent + "\t");
+		preorderIndent(ptr->getRight(), os, indent + "\t");
 	}
 	else return;
 }

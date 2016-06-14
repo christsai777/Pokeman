@@ -44,14 +44,14 @@ public:
 	Node * balance(Node * tree);
 
 	//traverse inorder
-	void traverseInorder(void process(const pokemon & data)) const;	//process inorder
+	void traverseInorder(ostream & os) const;	//process inorder
 	//traverse helper function
-	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
+	void traverseInorder(Node * ptr, ostream & os) const;	//process inorder
 
 	//traverse preorder with indentations
-	void preorderIndent(void process(const pokemon & data)) const;
+	void preorderIndent(ostream & os) const;
 	//traverse preorder helper function
-	void preorderIndent(Node * ptr, void process(const pokemon & data), string indent) const;
+	void preorderIndent(Node * ptr, ostream & os, string indent) const;
 
 
 	//re-sort
