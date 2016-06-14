@@ -448,20 +448,30 @@ void bstADT::traverseInorder(Node * ptr, ostream & os) const
 	else return;
 }
 
-//traverse in reverse order
-void bstADT::traverseRevorder(ostream & os) const	//process in reverse order
+//traverse in reverse order and outputs a "count" number of data from largest to smallest
+void bstADT::traverseRevorder(ostream & os, int count) const	//process in reverse order
 {
-	traverseRevorder(root, os);
+	traverseRevorder(root, os, count);
 }
 
 //traverse reverse order helper function
-void bstADT::traverseRevorder(Node * ptr, ostream & os) const	//process in reverse order
+void bstADT::traverseRevorder(Node * ptr, ostream & os, int count) const	//process in reverse order
 {
 	if (ptr)
 	{
-		traverseRevorder(ptr->getRight(), os);
-		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
-		traverseRevorder(ptr->getLeft(), os);
+		count--;
+		if (count <= 0)
+		{
+			return;
+		}
+		else
+		{
+			traverseRevorder(ptr->getRight(), os, count);
+			os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
+			if (ptr->getRight())
+				count--;
+			traverseRevorder(ptr->getLeft(), os, count);
+		}
 	}
 	else return;
 }
