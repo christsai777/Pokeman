@@ -334,9 +334,9 @@ void hashADT::listPokemon(void) const
 	}
 }
 
-pokemon hashADT::accessPokemon(int index)
+pokemon* hashADT::accessPokemon(int index)
 {
-	if (HashTable[index] == "none") 
+	if (HashTable[index]-> name == "none") 
 	{
 		cout << "The index is empty." << endl;
 	}
