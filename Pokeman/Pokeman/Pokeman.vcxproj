@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="bstADT.cpp" />
     <ClCompile Include="hashADT.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stackADT.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

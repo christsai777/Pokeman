@@ -3,6 +3,8 @@
 #include "bstADT.h"
 #include "hashADT.h"
 
+
+//did it push
 int main()
 {
 	const char file[] = "PokemonDataInputFile.txt";
