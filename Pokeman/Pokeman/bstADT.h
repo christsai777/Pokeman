@@ -31,6 +31,7 @@ public:
 	//remove
 	void remove(hashADT & table, const pokemon & data, int choice);
 	Node * remove(Node * tree, const pokemon & data, int choice);
+	Node * findSmallest(Node * ptr);
 	//search
 	Node * search(const pokemon & data, int choice);
 

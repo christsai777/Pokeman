@@ -221,7 +221,7 @@ void bstADT::insert(pokemon * data, int choice)
 //recursive insert function
 Node * bstADT::insert(Node * tree, pokemon * data, int choice)
 {
-	if (tree)
+	if (!tree)
 	{
 		tree = new Node(data, 0, 0);
 		return tree;
@@ -313,7 +313,7 @@ Node * bstADT::remove(Node * tree, const pokemon & data, int choice)
 }
 
 //helper function for remove function that finds the node with the smallest data
-Node * findSmallest(Node * ptr)
+Node * bstADT::findSmallest(Node * ptr)
 {
 	Node * pos = ptr;
 

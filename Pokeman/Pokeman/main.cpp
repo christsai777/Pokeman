@@ -9,17 +9,16 @@ int main()
 {
 	const char file[] = "PokemonDataInputFile.txt";
 	int sortBy = 1;
-	hashADT pokeHash = hashADT();
-	bstADT pokeBST = bstADT();
-
+	hashADT pokeHash;
+	
 	pokeHash.readDataFile(file);
-	pokeBST.setup(pokeHash, sortBy);
+	bstADT pokeBST(pokeHash, sortBy);
 
 	bool stop1 = false;
 	while (!stop1)
 	{
 		cout << "Please choose an option: " << endl;
-		cout << "[1] Add new pokemon\n[2] Delete pokemon\n[3] Search for pokemon\n[4] List pokemon\n[5] Print indented Tree\n[6] Print by power in descending order\n[7] Quit" << endl << endl;
+		cout << "[1] Add new pokemon\n[2] Delete pokemon\n[3] Search for pokemon\n[4] List pokemon\n[5] Print indented Tree\n[6] Print 10 strongest pokemon\n[7] Quit" << endl << endl;
 		cout << "Choice: ";
 		int choice1;
 		while (!(cin >> choice1) || choice1 < 1 || choice1 > 8)
@@ -175,9 +174,9 @@ int main()
 		case 6: // Print top 10 powerful pokemon (all three stats combined)
 		{
 			system("cls");
-			sortBy = 6;
+			pokeBST.resort(pokeHash, 6);
 			cout << "Printing top 10 powerful pokemon: " << endl << endl;
-			pokeBST.traversePostOrder(cout);
+			pokeBST.traverseRevorder(cout, 10);
 			cout << endl;
 			break;
 		}

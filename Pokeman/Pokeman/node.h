@@ -1,5 +1,6 @@
 #ifndef _NODE
 #define _NODE
+#include "pokemon.h"
 
 class Node
 {
