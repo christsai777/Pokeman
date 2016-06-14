@@ -34,11 +34,11 @@ void bstADT::setup(const hashADT & table, int choice)
 	{
 		choice = 1;
 	}	//defaults to choice 1 if choice selection was invalid
-	for (int i = 0; i < table.tableSize(); i++)	//go through hash table
+	for (int i = 0; i < table.getTableSize(); i++)	//go through hash table
 	{
 		if (table.NumberOfPokemon(i) != 0)
 		{
-			ptr = table.HashTable[i];
+			ptr = table.getPokemonIndex(i);
 			insert(ptr, choice);	//insert first pokemon
 			for (int j = 1; j < table.NumberOfPokemon(i); j++)	//if there are more than 1
 			{
