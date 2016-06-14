@@ -448,6 +448,24 @@ void bstADT::traverseInorder(Node * ptr, ostream & os) const
 	else return;
 }
 
+//traverse in reverse order
+void bstADT::traverseRevorder(ostream & os) const	//process in reverse order
+{
+	traverseRevorder(root, os);
+}
+
+//traverse reverse order helper function
+void bstADT::traverseRevorder(Node * ptr, ostream & os) const	//process in reverse order
+{
+	if (ptr)
+	{
+		traverseRevorder(ptr->getRight(), os);
+		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
+		traverseRevorder(ptr->getLeft(), os);
+	}
+	else return;
+}
+
 //traverse preorder with indentations that calls recursive function
 void bstADT::preorderIndent(ostream & os) const
 {

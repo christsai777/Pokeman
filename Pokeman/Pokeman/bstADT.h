@@ -48,6 +48,11 @@ public:
 	//traverse helper function
 	void traverseInorder(Node * ptr, ostream & os) const;	//process inorder
 
+	//traverse in reverse order
+	void traverseRevorder(ostream & os) const;	//process in reverse order
+	//traverse reverse order helper function
+	void traverseRevorder(Node * ptr, ostream & os) const;	//process in reverse order
+
 	//traverse preorder with indentations
 	void preorderIndent(ostream & os) const;
 	//traverse preorder helper function
