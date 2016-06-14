@@ -434,7 +434,7 @@ void bstADT::traverseInorder(Node * ptr, ostream & os) const
 	if (ptr)
 	{
 		traverseInorder(ptr->getLeft(), os);
-		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << "|ATK: " << (ptr->getData())->attack << "DEF: " << (ptr->getData())->defense << "]" << endl;
+		os << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
 		traverseInorder(ptr->getRight(), os);
 	}
 	else return;
@@ -451,7 +451,7 @@ void bstADT::preorderIndent(Node * ptr, ostream & os, string indent) const
 {
 	if (ptr)
 	{
-		os << indent << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << "|ATK: " << (ptr->getData())->attack << "DEF: " << (ptr->getData())->defense << "]" << endl;
+		os << indent << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
 		preorderIndent(ptr->getLeft(), os, indent + "\t");
 		preorderIndent(ptr->getRight(), os, indent + "\t");
 	}
