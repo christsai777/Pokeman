@@ -75,6 +75,8 @@ public:
 
 	void readDataFile(string);
 	void writeDataFile(string);
+	
+	pokemon accessPokemon(int index);
 };
 
 

@@ -333,3 +333,13 @@ void hashADT::listPokemon(void) const
 		cout << "There are no saved pokemon in the pokedex." << endl;
 	}
 }
+
+pokemon hashADT::accessPokemon(int index)
+{
+	if (HashTable[index] == "none") 
+	{
+		cout << "The index is empty." << endl;
+	}
+
+	return HashTable[index];
+}
