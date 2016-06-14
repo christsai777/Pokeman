@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "bstADT.h"
+#include "hashADT.h"
 
 using namespace std;
 

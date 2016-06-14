@@ -113,10 +113,15 @@
     <ClInclude Include="bstADT.h" />
     <ClInclude Include="hashADT.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="pokemon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bstADT.cpp" />
     <ClCompile Include="hashADT.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\Downloads\PokemonDataInputFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

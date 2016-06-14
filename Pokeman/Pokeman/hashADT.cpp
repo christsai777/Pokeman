@@ -1,11 +1,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "hashADT.h"
-
-using namespace std;
-
 
 hashADT::hashADT()
 {
@@ -19,16 +17,20 @@ hashADT::hashADT()
 		HashTable[i]->defense = 0;
 		HashTable[i]->next = NULL;
 	}
-
+	count = 0;
 }
-
 
 int hashADT::Hash(string key)
 {
 	int hash = 0;
 	int index;
 
-	index = key.length;
+	/*
+	Sums up the ASCII values of all the characters in
+	the pokemon's name (each multiplied by 23). Then takes the
+	remainder of the sum / tableSize(50) as the hash value.
+	*/
+	index = key.length();
 
 	for (int i = 0; i < key.length(); i++)
 	{
@@ -36,6 +38,11 @@ int hashADT::Hash(string key)
 	}
 
 	index = hash % tableSize;
+
+	if (index < 0)
+	{
+		index *= -1;
+	}
 
 	return index;
 
@@ -45,7 +52,6 @@ int hashADT::Hash(string key)
 void hashADT::AddPokemon(string name, string type, int hp, int attack, int defense)
 {
 	int index = Hash(name);
-
 	if (HashTable[index]->name == "none")
 	{
 		HashTable[index]->name = name;
@@ -71,9 +77,10 @@ void hashADT::AddPokemon(string name, string type, int hp, int attack, int defen
 
 		Ptr->next = n;
 	}
+	count++;
 }
 
-int hashADT::NumberOfPokemon(int index)
+int hashADT::NumberOfPokemon(int index) const
 {
 	int count = 0;
 
@@ -139,19 +146,18 @@ void hashADT::FindPokemon(string name)
 	{
 		cout << name << endl;
 		cout << "Type: " << type << endl;
-		cout << "HP: " << endl;
-		cout << "Attack: " << endl;
-		cout << "Defense: " << endl;
-
+		cout << "HP: " << hp << endl;
+		cout << "Attack: " << attack << endl;
+		cout << "Defense: " << defense << endl;
 	}
 
 	else
 	{
-		cout << name << "was not found in Pokedex.\n";
+		cout << name << " was not found in Pokedex.\n";
 	}
 }
 
-void hashADT::deletePokemon(string name)
+bool hashADT::deletePokemon(string name)
 {
 	int index = Hash(name);
 
@@ -159,11 +165,13 @@ void hashADT::deletePokemon(string name)
 	pokemon* P1;
 	pokemon* P2;
 
+	// If the target pokemon isn't in the hashtable.
 	if (HashTable[index]->name == "none" & HashTable[index]->type == "none")
 	{
-		cout << name << "was not found." << endl;
+		return false;
 	}
 
+	// If the target pokemon is first in the index AND IS NOT pointing to another pokemon in the same index.
 	else if (HashTable[index]->name == name && HashTable[index]->next == NULL)
 	{
 		HashTable[index]->name = "none";
@@ -171,35 +179,42 @@ void hashADT::deletePokemon(string name)
 		HashTable[index]->hp = 0;
 		HashTable[index]->attack = 0;
 		HashTable[index]->defense = 0;
-
+		count--;
+		return true;
 	}
 
+	// If the target pokemon is first in the index AND IS pointing to another pokemon
 	else if (HashTable[index]->name == name)
 	{
 		delPtr = HashTable[index];
 		HashTable[index] = HashTable[index]->next;
 		delete delPtr;
+		count--;
 
-		cout << "Deleted.";
+		return true;
 
 	}
 
+	// If the target pokemon MIGHT BE burried in the index. (There are other pokemons "above" it in the index.)
 	else
 	{
 		P1 = HashTable[index]->next;
 		P2 = HashTable[index];
 
+		// Searches for the pokemon in the index linked list.
 		while (P1 != NULL && P1->name != name)
 		{
 			P2 = P1;
 			P1 = P1->next;
 		}
 
+		// If the pokemon is not in the index linked list.
 		if (P1 == NULL)
 		{
-			cout << "Not Found." << endl;
+			return false;
 		}
 
+		// If pokemon is found in the index linked list.
 		else
 		{
 			delPtr = P1;
@@ -207,14 +222,16 @@ void hashADT::deletePokemon(string name)
 			P2->next = P1;
 
 			delete delPtr;
-			cout << "Deleted./n";
+			count--;
+
+			return true;
 		}
 	}
 
 }
 
 
-string hashADT::returnPokemon(string index)
+string hashADT::returnPokemon(int index)
 {
 	string name;
 	name = HashTable[index]->name;
@@ -224,26 +241,95 @@ string hashADT::returnPokemon(string index)
 
 void hashADT::printIndex(int index)
 {
-	item* Ptr = HashTable[index];
+	pokemon* Ptr = HashTable[index];
 
 	if (Ptr->name == "none")
 	{
-		cout << "index= " << index << "is empty, no Pokemon are in there.";
+		cout << "index= " << index << " is empty, no Pokemon are in there.";
 	}
 
 	else
 	{
-		cout << "index " << index << "contains the following Pokemon\n";
+		cout << "index " << index << " contains the following Pokemon\n";
 
 		while (Ptr != NULL)
 		{
 			cout << "=====================\n";
 			cout << "1. " << Ptr->name << endl;
-			cout << "Type: " << Ptr->Type << endl;
+			cout << "Type: " << Ptr->type << endl;
 			cout << "HP: " << Ptr->hp << endl;
 			cout << "Attack: " << Ptr->attack << endl;
 			cout << "Defense: " << Ptr->defense << endl;
 			Ptr = Ptr->next;
 		}
+	}
+}
+
+void hashADT::readDataFile(string file)
+{
+	ifstream in(file);
+	if (in.fail())
+	{
+		cerr << "ERROR: '" << file << "' COULD NOT BE OPENED! ";
+		exit(EXIT_FAILURE);
+	}
+
+	while (!in.eof())
+	{
+		string _name, _type;
+		int _hp, _atk, _def;
+		in >> _name >> _type >> _hp >> _atk >> _def;
+		AddPokemon(_name, _type, _hp, _atk, _def);
+	}
+
+	in.close();
+}
+
+void hashADT::writeDataFile(string file)
+{
+	ofstream out(file);
+	if (out.fail())
+	{
+		cerr << "ERROR: '" << file << "' COULD NOT BE OPENED! ";
+		exit(EXIT_FAILURE);
+	}
+
+	for (int i = 0; i < tableSize; i++)
+	{
+		pokemon * ptr = HashTable[i];
+		while (ptr != NULL && ptr->name != "none")
+		{
+			out << ptr->name << " " << ptr->type << " " << ptr->hp << " " << ptr->attack << " " << ptr->defense << "\n";
+			ptr = ptr->next;
+		}
+	}
+
+	out.close();
+}
+
+int hashADT::getTableSize(void) const { return tableSize; }
+
+pokemon* hashADT::getPokemonIndex(int index) const
+{
+	return HashTable[index];
+}
+
+void hashADT::listPokemon(void) const
+{
+	if (count != 0)
+	{
+		for (int i = 0; i < tableSize; i++)
+		{
+			pokemon* ptr = HashTable[i];
+			while (ptr != NULL && ptr->name != "none")
+			{
+				cout << ptr->name << endl;
+				ptr = ptr->next;
+			}
+		}
+	}
+	else
+	{
+		cout << "There are no saved pokemon in the pokedex." << endl;
 	}
 }
