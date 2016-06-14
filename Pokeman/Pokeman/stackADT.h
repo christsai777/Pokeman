@@ -18,6 +18,7 @@ public:
 	pokemon pop();
 	pokemon peek();
 	void empty();
+	bool isEmpty();
 };
 
 #endif

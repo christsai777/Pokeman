@@ -74,6 +74,10 @@ pokemon stackADT::pop()
 
 pokemon stackADT::peek()
 {
+	if (isEmpty())
+	{
+		throw "Stack is empty! Nothing to peek!";
+	}
 	return *(head->getData());
 }
 
@@ -84,4 +88,9 @@ void stackADT::empty()
 	{
 		temp = pop();
 	}
+}
+
+bool stackADT::isEmpty()
+{
+	return !head;
 }
