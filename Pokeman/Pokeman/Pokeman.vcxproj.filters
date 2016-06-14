@@ -27,6 +27,9 @@
     <ClInclude Include="pokemon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stackADT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hashADT.cpp">
@@ -35,13 +38,8 @@
     <ClCompile Include="bstADT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="stackADT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\..\..\Downloads\PokemonDataInputFile.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

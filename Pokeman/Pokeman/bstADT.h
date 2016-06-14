@@ -4,6 +4,7 @@
 #include <string>
 #include "hashADT.h"
 #include "node.h"
+#include "pokemon.h"
 
 using namespace std;
 
@@ -12,44 +13,56 @@ class bstADT
 private:
 	Node * root;
 
-	//insert helper functions
-	void insertByName(pokemon * data);	//sort by name
-	void insertByType(pokemon * data);	//sort by type + name
-	void insertByHP(pokemon * data);	//sort by hp
-	void insertByAtk(pokemon * data);	//sort by attack
-	void insertByDef(pokemon * data);	//sort by defense
-
-										//search helper functions
-	Node * searchByName(const pokemon & data);	//search by name
-	Node * searchByType(const pokemon & data);	//search by type
-	Node * searchByHP(const pokemon & data);		//search by HP
-	Node * searchByAtk(const pokemon & data);		//search by attack
-	Node * searchByDef(const pokemon & data);		//search by defense
-
-													//traverse helper function
-	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
 public:
 	//constructor that receives a hashtable
 	bstADT();
-	bstADT(hashADT table, int choice);
+	bstADT(const hashADT & table, int choice);
 	//destructor
 	~bstADT();
+
+	//setup
+	void setup(const hashADT & table, int choice);
+
+	//determines method of comparison
+	int compareBy(const pokemon & data1, const pokemon & data2, int choice);
 	//insert
 	void insert(pokemon * data, int choice);	//insert according to choice
-												//traverse inorder
-	void traverseInorder(void process(const pokemon & data)) const;	//process inorder
-																	//remove
-	void remove(const pokemon & data, int choice);
+	Node * insert(Node * tree, pokemon * data, int choice);	//insert recursive
+	//remove
+	void remove(hashADT & table, const pokemon & data, int choice);
+	Node * remove(Node * tree, const pokemon & data, int choice);
 	//search
 	Node * search(const pokemon & data, int choice);
-	//check balance
-	void checkBal(Node * tree);
-	//rebalance
-	void rebalance(Node * tree);
-	//destroy
-	void destroy();
+
+	//functions that help with balancing
+	int height(Node * ptr);
+	int heightDiff(Node * ptr);
+	Node * rotateR(Node * parent);
+	Node * rotateL(Node * parent);
+	Node * rotateLR(Node * parent);
+	Node * rotateRL(Node * parent);
+	Node * balance(Node * tree);
+
+	//traverse inorder
+	void traverseInorder(ostream & os) const;	//process inorder
+	//traverse helper function
+	void traverseInorder(Node * ptr, ostream & os) const;	//process inorder
+
+	//traverse in reverse order and outputs a "count" number of data from largest to smallest
+	void traverseRevorder(ostream & os, int count) const;	//process in reverse order
+	//traverse reverse order helper function
+	void traverseRevorder(Node * ptr, ostream & os, int count) const;	//process in reverse order
+
+	//traverse preorder with indentations
+	void preorderIndent(ostream & os) const;
+	//traverse preorder helper function
+	void preorderIndent(Node * ptr, ostream & os, string indent) const;
+
 	//re-sort
-	void resort(int choice);
+	void resort(const hashADT & table, int choice);
+
+	//destroy
+	void destroy(Node * ptr);
 };
 
 #endif

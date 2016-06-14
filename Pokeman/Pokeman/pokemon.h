@@ -12,10 +12,6 @@ struct pokemon {
 	int attack;
 	int defense;
 	pokemon* next;
-	string getName(void) const
-	{
-		return name;
-	}
 };
 
 #endif
