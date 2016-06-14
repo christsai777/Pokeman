@@ -48,6 +48,12 @@ public:
 	//traverse helper function
 	void traverseInorder(Node * ptr, void process(const pokemon & data)) const;	//process inorder
 
+	//traverse preorder with indentations
+	void preorderIndent(void process(const pokemon & data)) const;
+	//traverse preorder helper function
+	void preorderIndent(Node * ptr, void process(const pokemon & data), string indent) const;
+
+
 	//re-sort
 	void resort(const hashADT & table, int choice);
 

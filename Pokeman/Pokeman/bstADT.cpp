@@ -219,11 +219,6 @@ void bstADT::remove(hashADT & table, const pokemon & data, int choice)
 //recursive remove helper function
 Node * bstADT::remove(Node * tree, const pokemon & data, int choice)
 {
-	//search(data, choice)
-	//delete it
-	//check balance
-	//balance
-
 	//check for empty tree
 	if (!tree)
 	{
@@ -415,6 +410,25 @@ void bstADT::traverseInorder(Node * ptr, void process(const pokemon & data)) con
 	}
 	else return;
 }
+
+//traverse preorder with indentations that calls recursive function
+void bstADT::preorderIndent(void process(const pokemon & data)) const
+{
+	preorderIndent(root, process, "");
+}
+
+//traverse preorder with indentations recursive
+void bstADT::preorderIndent(Node * ptr, void process(const pokemon & data), string indent) const
+{
+	if (ptr)
+	{
+		process(*(ptr->getData()));
+		preorderIndent(ptr->getLeft(), process, indent + "\t");
+		preorderIndent(ptr->getRight(), process, indent + "\t");
+	}
+	else return;
+}
+
 
 //re-sort
 void bstADT::resort(const hashADT & table, int choice)
