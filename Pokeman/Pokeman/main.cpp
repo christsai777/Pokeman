@@ -18,7 +18,7 @@ int main()
 	while (!stop1)
 	{
 		cout << "Please choose an option: " << endl;
-		cout << "[1] Add new pokemon\n[2] Delete pokemon\n[3] Search for pokemon\n[4] List pokemon\n[5] Print indented Tree\n[6] Print 10 strongest pokemon\n[7] Quit" << endl << endl;
+		cout << "[1] Add new pokemon\n[2] Delete pokemon\n[3] Search for pokemon\n[4] List pokemon\n[5] Print indented Tree\n[6] Print 6 strongest pokemon\n[7] Quit" << endl << endl;
 		cout << "Choice: ";
 		int choice1;
 		while (!(cin >> choice1) || choice1 < 1 || choice1 > 8)
@@ -171,12 +171,12 @@ int main()
 			cout << endl;
 			break;
 		}
-		case 6: // Print top 10 powerful pokemon (all three stats combined)
+		case 6: // Print top 6 powerful pokemon (all three stats combined)
 		{
 			system("cls");
 			pokeBST.resort(pokeHash, 6);
-			cout << "Printing top 10 powerful pokemon: " << endl << endl;
-			pokeBST.traverseRevorder(cout, 10);
+			cout << "Printing top 6 strongest pokemon: " << endl << endl;
+			pokeBST.traverseRevorder(cout, 6);
 			cout << endl;
 			break;
 		}
