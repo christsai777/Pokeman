@@ -30,7 +30,7 @@ void bstADT::setup(const hashADT & table, int choice)
 {
 	root = 0;
 	pokemon * ptr;
-	if (choice < 1 || choice > 5)
+	if (choice < 1 || choice > 6)
 	{
 		choice = 1;
 	}	//defaults to choice 1 if choice selection was invalid
@@ -53,6 +53,10 @@ void bstADT::setup(const hashADT & table, int choice)
 int bstADT::compareBy(const pokemon & data1, const pokemon & data2, int choice)
 {
 	int compare = 0;
+	if (choice < 1 || choice > 6)
+	{
+		choice = 1;
+	}	//defaults to choice 1 if choice selection was invalid
 	switch (choice)
 	{
 	case 1:
@@ -167,6 +171,31 @@ int bstADT::compareBy(const pokemon & data1, const pokemon & data2, int choice)
 			{
 				compare = 0;
 			}	//name and defense match
+		}
+		break;
+	case 6:
+		if (data1.hp + data1.attack + data1.defense < data2.hp + data2.attack + data2.defense)
+		{
+			compare = -1;
+		}
+		else if (data1.hp + data1.attack + data1.defense > data2.hp + data2.attack + data2.defense)
+		{
+			compare = 1;
+		}
+		else
+		{
+			if (data1.name < data2.name)
+			{
+				compare = -1;
+			}
+			else if (data1.name > data2.name)
+			{
+				compare = 1;
+			}
+			else
+			{
+				compare = 0;
+			}	//name and total stats match
 		}
 		break;
 	default:
