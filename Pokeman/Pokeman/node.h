@@ -37,7 +37,7 @@ public:
 	void setRight(Node * right)
 	{
 		this->right = right;
-	} // left pointer mutator
+	} // right pointer mutator
 	pokemon * getData() const
 	{
 		return data;
@@ -45,11 +45,11 @@ public:
 	Node * getLeft() const
 	{
 		return left;
-	} // next pointer accessor
+	} // left pointer accessor
 	Node * getRight() const
 	{
 		return right;
-	} // next pointer accessor
+	} // right pointer accessor
 	bool isLeaf() const
 	{
 		return !(left || right);

@@ -49,7 +49,15 @@ void bstADT::setup(const hashADT & table, int choice)
 	}
 }
 
-//determines method of comparison
+/*
+Determines method of comparison:
+choice = 1: compare by name.
+choice = 2: compare by type.
+choice = 3: compare by hp.
+choice = 4: compare by attack.
+choice = 5: compare by defense.
+chhoice = 6: compare by stat total.
+*/
 int bstADT::compareBy(const pokemon & data1, const pokemon & data2, int choice)
 {
 	int compare = 0;
