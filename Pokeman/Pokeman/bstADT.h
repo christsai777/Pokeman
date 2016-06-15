@@ -52,7 +52,7 @@ public:
 	//traverse in reverse order and outputs a "count" number of data from largest to smallest
 	void traverseRevorder(ostream & os, int count) const;	//process in reverse order
 	//traverse reverse order helper function
-	void traverseRevorder(Node * ptr, ostream & os, int count) const;	//process in reverse order
+	void traverseRevorder(Node * ptr, ostream & os, int & count) const;	//process in reverse order
 
 	//traverse preorder with indentations
 	void preorderIndent(ostream & os) const;
