@@ -488,8 +488,11 @@ void bstADT::preorderIndent(Node * ptr, ostream & os, string indent) const
 	if (ptr)
 	{
 		os << indent << (ptr->getData())->name << " " << (ptr->getData())->type << " [HP: " << (ptr->getData())->hp << " |ATK: " << (ptr->getData())->attack << " |DEF: " << (ptr->getData())->defense << "]" << endl;
-		preorderIndent(ptr->getLeft(), os, indent + "\t");
-		preorderIndent(ptr->getRight(), os, indent + "\t");
+		if (!ptr->isLeaf())
+		{
+			preorderIndent(ptr->getLeft(), os, indent + "\t");
+			preorderIndent(ptr->getRight(), os, indent + "\t");
+		}
 	}
 	else
 	{
