@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 #include "hashADT.h"
 
@@ -18,6 +19,26 @@ hashADT::hashADT()
 		HashTable[i]->next = NULL;
 	}
 	count = 0;
+}
+
+hashADT::~hashADT(void)
+{
+	for (int i = 0; i < tableSize; i++)
+	{
+		while (HashTable[i]->next != NULL)
+		{
+			pokemon* ptr = HashTable[i];
+			pokemon* prevPtr = NULL;
+			while (ptr->next != NULL)
+			{
+				prevPtr = ptr;
+				ptr = ptr->next;
+			}
+			delete ptr;
+			prevPtr->next = NULL;
+		}
+		delete HashTable[i];
+	}
 }
 
 int hashADT::Hash(string key)
@@ -63,6 +84,7 @@ void hashADT::AddPokemon(string name, string type, int hp, int attack, int defen
 	else
 	{
 		pokemon* Ptr = HashTable[index];
+		pokemon* parent = NULL;
 		pokemon* n = new pokemon;
 		n->name = name;
 		n->type = type;
@@ -70,12 +92,25 @@ void hashADT::AddPokemon(string name, string type, int hp, int attack, int defen
 		n->attack = attack;
 		n->defense = defense;
 		n->next = NULL;
-		while (Ptr->next != NULL)
+		while (Ptr != NULL && Ptr->name < n->name)
 		{
+			parent = Ptr;
 			Ptr = Ptr->next;
 		}
-
-		Ptr->next = n;
+		if (Ptr == NULL)
+		{
+			parent->next = n;
+		}
+		else if (parent == NULL)
+		{
+			HashTable[index] = n;
+			n->next = Ptr;
+		}
+		else
+		{
+			parent->next = n;
+			n->next = Ptr;
+		}
 	}
 	count++;
 }
@@ -109,13 +144,24 @@ void hashADT::PrintTable()
 	int number;
 	for (int i = 0; i < tableSize; i++)
 	{
-		number = NumberOfPokemon(i);
-		cout << "---------------------\n";
-		cout << "index = " << i << endl;
-		cout << "Name: " << HashTable[i]->name << "      ";
-		cout << "Type: " << HashTable[i]->type << endl;
-
+		pokemon* pok = HashTable[i];
+		cout << "[ Index: " << setfill('0') << setw(2) << i << " ] ";
+		if (pok->name != "none")
+		{
+			cout << pok->name;
+			while (pok->next != NULL)
+			{
+				pok = pok->next;
+				cout << " -> " << pok->name;
+			}
+			cout << endl;
+		}
+		else
+		{
+			cout << endl;
+		}
 	}
+	cout << setfill(' ');
 }
 
 
@@ -155,6 +201,26 @@ void hashADT::FindPokemon(string name)
 	{
 		cout << name << " was not found in Pokedex.\n";
 	}
+}
+
+pokemon * hashADT::getPokemonPtr(string name)
+{
+	int index = Hash(name);
+	bool foundPokemon = false;
+	string type;
+	int hp, attack, defense;
+
+	pokemon* Ptr = HashTable[index];
+	while (Ptr != NULL)
+	{
+		if (Ptr->name == name)
+		{
+			break;
+		}
+		else
+			Ptr = Ptr->next;
+	}
+	return Ptr;
 }
 
 bool hashADT::deletePokemon(string name)
@@ -251,16 +317,17 @@ void hashADT::printIndex(int index)
 	else
 	{
 		cout << "index " << index << " contains the following Pokemon\n";
-
+		int num = 1;
 		while (Ptr != NULL)
 		{
 			cout << "=====================\n";
-			cout << "1. " << Ptr->name << endl;
+			cout << num <<". " << Ptr->name << endl;
 			cout << "Type: " << Ptr->type << endl;
 			cout << "HP: " << Ptr->hp << endl;
 			cout << "Attack: " << Ptr->attack << endl;
 			cout << "Defense: " << Ptr->defense << endl;
 			Ptr = Ptr->next;
+			num++;
 		}
 	}
 }
@@ -278,8 +345,8 @@ void hashADT::readDataFile(string file)
 	{
 		string _name, _type;
 		int _hp, _atk, _def;
-		in >> _name >> _type >> _hp >> _atk >> _def;
-		AddPokemon(_name, _type, _hp, _atk, _def);
+		if(in >> _name >> _type >> _hp >> _atk >> _def)
+			AddPokemon(_name, _type, _hp, _atk, _def);
 	}
 
 	in.close();
@@ -342,4 +409,45 @@ pokemon* hashADT::accessPokemon(int index)
 	}
 
 	return HashTable[index];
+}
+
+void hashADT::printEfficiency(ostream & os)
+{
+	os << "Efficiency Data: " << endl;
+	os << "Load Factor: " << getLoadFactor() << endl;
+	os << "Number of Collisions: " << getNumCollisions() << endl;
+	os << "Average: " << getAvgNode() << endl;
+}
+
+double hashADT::getLoadFactor()
+{
+	return 1.0 * count / getTableSize();
+}
+
+int hashADT::getNumCollisions()
+{
+	int num = 0;
+	for (int i = 0; i < getTableSize(); i++)
+	{
+		if (NumberOfPokemon(i) > 1)
+		{
+			num += NumberOfPokemon(i) - 1;
+		}
+	}
+	return num;
+}
+
+double hashADT::getAvgNode()
+{
+	int sum = 0;
+	int buckets = 0;
+	for (int i = 0; i < getTableSize(); i++)
+	{
+		if (NumberOfPokemon(i) > 0)
+		{
+			sum += NumberOfPokemon(i);
+			buckets++;
+		}
+	}
+	return 1.0 * sum / buckets;
 }

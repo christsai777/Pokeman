@@ -23,6 +23,11 @@ public:
 	hashADT();
 
 	/*
+	Destructor for hashADT to release all dynamically allocated memory.
+	*/
+	~hashADT();
+
+	/*
 	Hash function.
 	*/
 	int Hash(string key);
@@ -46,6 +51,9 @@ public:
 	Finds and prints the information of the given pokemon
 	*/
 	void FindPokemon(string name);
+
+	pokemon * getPokemonPtr(string name);
+
 
 	/*
 	Deletes the pokemon of the given name.
@@ -77,6 +85,11 @@ public:
 	void writeDataFile(string);
 	
 	pokemon* accessPokemon(int index);
+
+	void printEfficiency(ostream & os);
+	double getLoadFactor();
+	int getNumCollisions();
+	double getAvgNode();
 };
 
 

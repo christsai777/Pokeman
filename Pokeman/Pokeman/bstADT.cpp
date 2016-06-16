@@ -265,14 +265,14 @@ Node * bstADT::remove(Node * tree, const pokemon & data, int choice)
 		
 	//Start looking for the data by searching left if data is smaller or right if data is larger
 	if (compareBy(data, *(tree->getData()), choice) < 0)
-		root->setLeft(remove(tree->getLeft(), data, choice));
+		tree->setLeft(remove(tree->getLeft(), data, choice));
 	else if (compareBy(data, *(tree->getData()), choice) > 0)
-		root->setRight(remove(tree->getRight(), data, choice));
+		tree->setRight(remove(tree->getRight(), data, choice));
 	//otherwise you're at the correct node
 	else
 	{
 		// node with only one child or no child
-		if (!(tree->getLeft()) || !(root->getRight()))
+		if (!(tree->getLeft()) || !(tree->getRight()))
 		{
 			Node * ptr = (tree->getLeft() ? tree->getLeft() : tree->getRight());
 
@@ -293,7 +293,7 @@ Node * bstADT::remove(Node * tree, const pokemon & data, int choice)
 		{
 			// node with two children: Get the inorder successor (smallest
 			// in the right subtree)
-			Node * ptr = findSmallest(root->getRight());
+			Node * ptr = findSmallest(tree->getRight());
 
 			// Copy the inorder successor's data to this node
 			tree->setData(ptr->getData());

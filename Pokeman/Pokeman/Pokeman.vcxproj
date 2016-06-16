@@ -114,13 +114,11 @@
     <ClInclude Include="hashADT.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="pokemon.h" />
-    <ClInclude Include="stackADT.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bstADT.cpp" />
     <ClCompile Include="hashADT.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="stackADT.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
