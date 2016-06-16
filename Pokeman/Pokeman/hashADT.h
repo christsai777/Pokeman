@@ -88,7 +88,7 @@ public:
 
 	void printEfficiency(ostream & os);
 	double getLoadFactor();
-	int getNumCollisions();
+	int getLongestLink();
 	double getAvgNode();
 };
 

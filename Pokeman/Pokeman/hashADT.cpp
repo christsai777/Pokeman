@@ -415,8 +415,8 @@ void hashADT::printEfficiency(ostream & os)
 {
 	os << "Efficiency Data: " << endl;
 	os << "Load Factor: " << getLoadFactor() << endl;
-	os << "Number of Collisions: " << getNumCollisions() << endl;
-	os << "Average: " << getAvgNode() << endl;
+	os << "Longest Linked List: " << getLongestLink() << endl;
+	os << "Average Number of Nodes: " << getAvgNode() << endl;
 }
 
 double hashADT::getLoadFactor()
@@ -424,14 +424,14 @@ double hashADT::getLoadFactor()
 	return 1.0 * count / getTableSize();
 }
 
-int hashADT::getNumCollisions()
+int hashADT::getLongestLink()
 {
 	int num = 0;
 	for (int i = 0; i < getTableSize(); i++)
 	{
-		if (NumberOfPokemon(i) > 1)
+		if (NumberOfPokemon(i) > num)
 		{
-			num += NumberOfPokemon(i) - 1;
+			num = NumberOfPokemon(i);
 		}
 	}
 	return num;
