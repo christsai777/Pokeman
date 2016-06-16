@@ -1,3 +1,7 @@
+/*
+Node class used in the BST ADT
+*/
+
 #ifndef _NODE
 #define _NODE
 #include "pokemon.h"

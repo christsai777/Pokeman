@@ -1,3 +1,7 @@
+/*
+Basic object with a pokemon's attributes
+*/
+
 #ifndef POKEMON_H
 #define POKEMON_H
 

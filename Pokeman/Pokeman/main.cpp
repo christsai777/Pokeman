@@ -1,3 +1,8 @@
+/*
+Driver source code
+Written by Dale and Arik
+*/
+
 #include "bstADT.h"
 #include "hashADT.h"
 
@@ -75,11 +80,11 @@ int main()
 				cout << "Please enter an integer for the pokemon's defense points: " << endl;
 			}
 
-			pokeHash.AddPokemon(name, type, hp, atk, def);
+			pokeHash.AddPokemon(name, type, hp, atk, def);	//add to hash table
 
 			pokemon* pok = pokeHash.getPokemonPtr(name);
 
-			pokeBST.insert(pok, sortBy);
+			pokeBST.insert(pok, sortBy);	//add to BST
 			system("cls");
 			cout << name << " has been added! " << endl << endl;
 			break;
@@ -93,7 +98,7 @@ int main()
 			pokemon * pok = pokeHash.getPokemonPtr(name);
 			if (pok)
 			{
-				pokeBST.remove(pokeHash, *pok, sortBy);
+				pokeBST.remove(pokeHash, *pok, sortBy);	//removes pokemon from bst AND hash
 				cout << name << " has been deleted." << endl << endl;
 			}
 			else
@@ -108,7 +113,7 @@ int main()
 			cout << endl << "Enter the name of the pokemon: ";
 			cin >> name;
 			system("cls");
-			pokeHash.FindPokemon(name);
+			pokeHash.FindPokemon(name);	//locates and prints the pokemon's details
 			cout << endl;
 			break;
 		}
@@ -170,8 +175,8 @@ int main()
 				break;
 			}
 			}
-			pokeBST.resort(pokeHash, sortBy);
-			pokeBST.traverseInorder(cout);
+			pokeBST.resort(pokeHash, sortBy);	//resort BST to user's choice
+			pokeBST.traverseInorder(cout);	//output using inorder traversal
 			cout << endl;
 			break;
 		}
@@ -181,7 +186,7 @@ int main()
 			sortBy = 1;
 			cout << "Printing indented BST sorted by name: " << endl << endl;
 			pokeBST.resort(pokeHash, sortBy);
-			pokeBST.preorderIndent(cout);
+			pokeBST.preorderIndent(cout);	//prints an indented tree using preorder traversal
 			cout << endl;
 			break;
 		}
@@ -197,8 +202,8 @@ int main()
 			system("cls");
 			sortBy = 6;
 			cout << "Printing top 6 powerful pokemon in pokedex: " << endl << endl;
-			pokeBST.resort(pokeHash, sortBy);
-			pokeBST.traverseRevorder(cout, sortBy);
+			pokeBST.resort(pokeHash, sortBy);	//sort by stat
+			pokeBST.traverseRevorder(cout, sortBy);	//traverse in reverse inorder (descending instead of ascending order)
 			cout << endl;
 			break;
 		}
@@ -210,6 +215,6 @@ int main()
 		}
 	}
 
-	pokeHash.writeDataFile(file);
+	pokeHash.writeDataFile(file);	//write pokemon to file
 	system("pause");
 }

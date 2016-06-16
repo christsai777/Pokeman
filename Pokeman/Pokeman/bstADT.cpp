@@ -1,3 +1,8 @@
+/*
+Implementation file for the BST ADT
+Written by Daniel and Dale
+*/
+
 
 #include <iostream>
 #include <string>
@@ -25,7 +30,10 @@ bstADT::~bstADT()
 	root = 0;
 }
 
-//setup
+/*
+Setup function called by resort and constructor
+Takes input from a table and sorts accordingly
+*/
 void bstADT::setup(const hashADT & table, int choice)
 {
 	root = 0;
@@ -218,7 +226,8 @@ void bstADT::insert(pokemon * data, int choice)
 	root = insert(root, data, choice);
 }
 
-//recursive insert function
+//recursive insert function that inserts by a chosen sort
+//returns a pointer to root eventually
 Node * bstADT::insert(Node * tree, pokemon * data, int choice)
 {
 	if (!tree)
@@ -368,6 +377,7 @@ int bstADT::height(Node * ptr)
 	return h;
 }
 
+//calculates the difference in height of the child nodes
 int bstADT::heightDiff(Node * ptr)
 {
 	int leftHeight = height(ptr->getLeft());
@@ -376,6 +386,7 @@ int bstADT::heightDiff(Node * ptr)
 	return difference;
 }
 
+//right rotate function used to balance a tree
 Node * bstADT::rotateR(Node * parent)
 {
 	Node * ptr;
@@ -385,6 +396,7 @@ Node * bstADT::rotateR(Node * parent)
 	return ptr;
 }
 
+//left rotate function used to balance a tree
 Node * bstADT::rotateL(Node * parent)
 {
 	Node * ptr;
@@ -394,6 +406,7 @@ Node * bstADT::rotateL(Node * parent)
 	return ptr;
 }
 
+//a rotate function that first rotates right then left used to balance a tree
 Node * bstADT::rotateLR(Node * parent)
 {
 	Node * ptr;
@@ -402,6 +415,7 @@ Node * bstADT::rotateLR(Node * parent)
 	return rotateL(parent);
 }
 
+//a rotate function that first rotates left then right used to balance a tree
 Node * bstADT::rotateRL(Node * parent)
 {
 	Node * ptr;
@@ -410,6 +424,7 @@ Node * bstADT::rotateRL(Node * parent)
 	return rotateR(parent);
 }
 
+//checks the balance of a tree and calls the necessary rotate functions
 Node * bstADT::balance(Node * tree)
 {
 	int diff = heightDiff(tree);

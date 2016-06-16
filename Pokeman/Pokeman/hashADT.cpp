@@ -1,3 +1,8 @@
+/*
+Implementation file for the Hash Table
+Written by Chris and Daniel
+*/
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -6,6 +11,7 @@
 
 #include "hashADT.h"
 
+//constructor
 hashADT::hashADT()
 {
 	for (int i = 0; i < tableSize; i++)
@@ -19,8 +25,9 @@ hashADT::hashADT()
 		HashTable[i]->next = NULL;
 	}
 	count = 0;
-}
+} //fills hash with dummy pokemon
 
+//destructor
 hashADT::~hashADT(void)
 {
 	for (int i = 0; i < tableSize; i++)
@@ -38,12 +45,14 @@ hashADT::~hashADT(void)
 			prevPtr->next = NULL;
 		}
 		delete HashTable[i];
-	}
+	} //frees memory of entire hash table
 }
 
+//hash function that uses the name of the pokemon as the primary key
+//uses a formula to determine the index
 int hashADT::Hash(string key)
 {
-	int hash = 0;
+	unsigned long long int hash = 0;
 	int index;
 
 	/*
@@ -60,16 +69,14 @@ int hashADT::Hash(string key)
 
 	index = hash % tableSize;
 
-	if (index < 0)
-	{
-		index *= -1;
-	}
-
 	return index;
-
 }
 
-
+/*
+Adds a pokemon to the hash table using the Hash function
+Will add directly to the index if it has an unoccupied bucket
+Otherwise, will link accordingly to the chain of pokemon in sorted order
+*/
 void hashADT::AddPokemon(string name, string type, int hp, int attack, int defense)
 {
 	int index = Hash(name);
@@ -80,7 +87,7 @@ void hashADT::AddPokemon(string name, string type, int hp, int attack, int defen
 		HashTable[index]->hp = hp;
 		HashTable[index]->attack = attack;
 		HashTable[index]->defense = defense;
-	}
+	}	//if it only contains a dummy pokemon, simply change the data
 	else
 	{
 		pokemon* Ptr = HashTable[index];
@@ -96,25 +103,28 @@ void hashADT::AddPokemon(string name, string type, int hp, int attack, int defen
 		{
 			parent = Ptr;
 			Ptr = Ptr->next;
-		}
+		}	//traverse the chain to find its proper location
 		if (Ptr == NULL)
 		{
 			parent->next = n;
-		}
+		}	//at the end of the chain
 		else if (parent == NULL)
 		{
 			HashTable[index] = n;
 			n->next = Ptr;
-		}
+		}	//at the beginning of the chain
 		else
 		{
 			parent->next = n;
 			n->next = Ptr;
-		}
+		}	//at the middle of the chain
 	}
 	count++;
 }
 
+/*
+returns the number of pokemon stored at a given index (in other words, chain length)
+*/
 int hashADT::NumberOfPokemon(int index) const
 {
 	int count = 0;
@@ -122,7 +132,7 @@ int hashADT::NumberOfPokemon(int index) const
 	if (HashTable[index]->name == "none")
 	{
 		return count;
-	}
+	}	//only dummy pokemon
 
 	else
 	{
@@ -132,13 +142,16 @@ int hashADT::NumberOfPokemon(int index) const
 		{
 			count++;
 			Ptr = Ptr->next;
-		}
+		}	//count the chain
 	}
 
 	return count;
 }
 
-
+/*
+Prints the contents of the hash table by index
+Will be blank if unoccupied, and a chain if more than 1 pokemon occupies a bucket
+*/
 void hashADT::PrintTable()
 {
 	int number;
@@ -164,7 +177,9 @@ void hashADT::PrintTable()
 	cout << setfill(' ');
 }
 
-
+/*
+Searches for a pokemon by its primary key and prints its details
+*/
 void hashADT::FindPokemon(string name)
 {
 	int index = Hash(name);
@@ -185,7 +200,7 @@ void hashADT::FindPokemon(string name)
 		}
 
 		Ptr = Ptr->next;
-	}
+	}	//look through the chain
 
 
 	if (foundPokemon == true)
@@ -195,7 +210,7 @@ void hashADT::FindPokemon(string name)
 		cout << "HP: " << hp << endl;
 		cout << "Attack: " << attack << endl;
 		cout << "Defense: " << defense << endl;
-	}
+	}	//print pokemon details if found
 
 	else
 	{
@@ -203,6 +218,9 @@ void hashADT::FindPokemon(string name)
 	}
 }
 
+/*
+Returns the pointer of a pokemon within the hashtable given its name
+*/
 pokemon * hashADT::getPokemonPtr(string name)
 {
 	int index = Hash(name);
@@ -223,6 +241,9 @@ pokemon * hashADT::getPokemonPtr(string name)
 	return Ptr;
 }
 
+/*
+removes a pokemon from the hash table and relinks if necessary
+*/
 bool hashADT::deletePokemon(string name)
 {
 	int index = Hash(name);
@@ -296,7 +317,9 @@ bool hashADT::deletePokemon(string name)
 
 }
 
-
+/*
+returns the name of a pokemon at a given index
+*/
 string hashADT::returnPokemon(int index)
 {
 	string name;
@@ -304,7 +327,9 @@ string hashADT::returnPokemon(int index)
 	return name;
 }
 
-
+/*
+returns the chain of pokemon and their details in a given index
+*/
 void hashADT::printIndex(int index)
 {
 	pokemon* Ptr = HashTable[index];
@@ -332,6 +357,9 @@ void hashADT::printIndex(int index)
 	}
 }
 
+/*
+Receives input of pokemon from a file
+*/
 void hashADT::readDataFile(string file)
 {
 	ifstream in(file);
@@ -352,6 +380,9 @@ void hashADT::readDataFile(string file)
 	in.close();
 }
 
+/*
+writes the contents of the hash table into the file
+*/
 void hashADT::writeDataFile(string file)
 {
 	ofstream out(file);
@@ -374,13 +405,16 @@ void hashADT::writeDataFile(string file)
 	out.close();
 }
 
+//accessor function for the size of the hash table
 int hashADT::getTableSize(void) const { return tableSize; }
 
+//accessor function for the pointer to a pokemon at a given index
 pokemon* hashADT::getPokemonIndex(int index) const
 {
 	return HashTable[index];
 }
 
+//lists the pokemon saved in the hash table
 void hashADT::listPokemon(void) const
 {
 	if (count != 0)
@@ -401,6 +435,7 @@ void hashADT::listPokemon(void) const
 	}
 }
 
+//accessor function for the pointer to a pokemon at a given index
 pokemon* hashADT::accessPokemon(int index)
 {
 	if (HashTable[index]-> name == "none") 
@@ -411,19 +446,22 @@ pokemon* hashADT::accessPokemon(int index)
 	return HashTable[index];
 }
 
+//prints the efficiency data of the hash table
 void hashADT::printEfficiency(ostream & os)
 {
 	os << "Efficiency Data: " << endl;
 	os << "Load Factor: " << getLoadFactor() << endl;
 	os << "Longest Linked List: " << getLongestLink() << endl;
-	os << "Average Number of Nodes: " << getAvgNode() << endl;
+	os << "Average Number of Nodes in Linked Lists: " << getAvgNode() << endl;
 }
 
+//returns the load factor as a double
 double hashADT::getLoadFactor()
 {
 	return 1.0 * count / getTableSize();
 }
 
+//returns the longest linked list in the hash table
 int hashADT::getLongestLink()
 {
 	int num = 0;
@@ -432,22 +470,21 @@ int hashADT::getLongestLink()
 		if (NumberOfPokemon(i) > num)
 		{
 			num = NumberOfPokemon(i);
-		}
+		} //save the longest chain
 	}
 	return num;
 }
 
+//returns the average length of linked list in the hash table
 double hashADT::getAvgNode()
 {
-	int sum = 0;
 	int buckets = 0;
 	for (int i = 0; i < getTableSize(); i++)
 	{
 		if (NumberOfPokemon(i) > 0)
 		{
-			sum += NumberOfPokemon(i);
 			buckets++;
-		}
+		}	//increment number of buckets that don't have dummy pokemon
 	}
-	return 1.0 * sum / buckets;
+	return 1.0 * count / buckets;
 }

@@ -1,3 +1,8 @@
+/*
+Header file for the BST ADT
+Written by Daniel and Dale
+*/
+
 #ifndef BSTADT_H
 #define BSTADT_H
 #include <iostream>
@@ -35,7 +40,7 @@ public:
 	//search
 	Node * search(const pokemon & data, int choice);
 
-	//functions that help with balancing
+	//functions that related to tree balancing
 	int height(Node * ptr);
 	int heightDiff(Node * ptr);
 	Node * rotateR(Node * parent);

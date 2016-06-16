@@ -1,3 +1,8 @@
+/*
+Header file for the Hash Table
+Written by Chris and Daniel
+*/
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -11,8 +16,8 @@ using namespace std;
 
 class hashADT {
 private:
-	static const int tableSize = 50;
-	int count;
+	static const int tableSize = 50;	//size of hash table (number of buckets)
+	int count;	//number of pokemon stored
 	pokemon* HashTable[tableSize];
 
 
@@ -52,8 +57,10 @@ public:
 	*/
 	void FindPokemon(string name);
 
+	/*
+	returns a pointer to a pokemon given the pokemon's name
+	*/
 	pokemon * getPokemonPtr(string name);
-
 
 	/*
 	Deletes the pokemon of the given name.
@@ -79,13 +86,17 @@ public:
 	*/
 	pokemon* getPokemonIndex(int) const;
 
+	//lists the pokemon in the hash table
 	void listPokemon(void) const;
 
+	//File Input / Output functions
 	void readDataFile(string);
 	void writeDataFile(string);
 	
+	//accessor function for the pointer to a pokemon given its index
 	pokemon* accessPokemon(int index);
 
+	//Efficiency functions
 	void printEfficiency(ostream & os);
 	double getLoadFactor();
 	int getLongestLink();
